@@ -31,7 +31,7 @@ class MovieList extends React.Component {
 				</nav>
 				<main>
 					{this.props.movies.map(m => {
-						return <Movie key={m.id} movie={m} />;
+						 return <Movie key={m.id} movie={m} />;
 					})}
 				</main>
 			</div>
