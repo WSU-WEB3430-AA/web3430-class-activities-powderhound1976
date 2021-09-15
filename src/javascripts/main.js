@@ -11,16 +11,31 @@ import { movies } from './movies';
 
 class Main extends React.Component {
 	render() {
-		return <MovieList movies= {movies} />;
+		return <MovieList movies={movies} />;
 	}
 }
 
 class MovieList extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { movies: this.props.movies };
+		this.sortMovies = this.sortMovies.bind(this);
+	}
+
+	sortMovies() {
+		this.state.movies.sort((a, b) => {
+			return a.rating - b.rating;
+		});
+		this.setState({
+			movies: this.state.movies,
+		});
+	}
+
 	render() {
 		return (
 			<div className='container'>
 				<header>
-					<h1>Top 10 Movies</h1>
+					<h1>Top 10 Movies: Chris Reynolds</h1>
 				</header>
 				<nav>
 					<ul>
@@ -28,10 +43,13 @@ class MovieList extends React.Component {
 						<li>List</li>
 						<li>About</li>
 					</ul>
+					<button className='primary' onClick={this.sortMovies}>
+						Sort
+					</button>
 				</nav>
 				<main>
-					{this.props.movies.map(m => {
-						 return <Movie key={m.id} movie={m} />;
+					{this.state.movies.map(m => {
+						return <Movie key={m.id} movie={m} />;
 					})}
 				</main>
 			</div>
