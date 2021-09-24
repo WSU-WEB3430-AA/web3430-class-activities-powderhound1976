@@ -7,11 +7,11 @@ require.context('../stylesheets/', true, /\.(css|scss)$/i);
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { movies } from './movies';
+import { top10 } from './top10';
 
 class Main extends React.Component {
 	render() {
-		return <MovieList movies={movies} />;
+		return <MovieList movies={top10} />;
 	}
 }
 
