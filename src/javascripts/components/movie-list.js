@@ -1,44 +1,31 @@
-import React from 'react';
-import { Movie } from './movie';
+import React, { useState } from 'react';
+import Movie from './Movie';
 import { top10 } from '../top10';
-export class MovieList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { movies: top10 };
-		this.sortMovies = this.sortMovies.bind(this);
-	}
 
-	sortMovies() {
-		this.state.movies.sort((a, b) => {
-			return a.rating - b.rating;
-		});
-		this.setState({
-			movies: this.state.movies,
-		});
-	}
-
-	render() {
+export default function MovieList () {
+  const [movies, setMovies] = useState(top10)
 		return (
-			<div className='container'>
-				<header>
-					<h1>Top 10 Movies</h1>
-				</header>
+			<>
 				<nav>
 					<ul>
 						<li>Home</li>
 						<li>List</li>
 						<li>About</li>
 					</ul>
-					<button className='primary' onClick={this.sortMovies}>
+					<button className='primary' onClick={
+            () => {
+              movies.sort((a, b) => a.rating - b.rating)
+              setMovies(movies.map(m => m))
+            }
+          }>
 						Sort
 					</button>
 				</nav>
 				<main>
-					{this.state.movies.map(m => {
+					{movies.map(m => {
 						return <Movie key={m.id} movie={m} />;
 					})}
 				</main>
-			</div>
+			</>
 		);
-	}
 }

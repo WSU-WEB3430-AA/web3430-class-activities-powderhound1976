@@ -1,5 +1,6 @@
 import React from 'react'
-export function Movie(props) {
+
+export default function Movie(props) {
 	const m = props.movie;
 	return (
 		<div className='card'>
