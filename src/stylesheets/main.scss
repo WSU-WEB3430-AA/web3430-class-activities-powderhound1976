@@ -42,6 +42,7 @@ body {
   main {
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-around;
 
     & > .card {
       width: 30%;
@@ -74,4 +75,10 @@ button.primary {
   border: 1px solid lightgrey;
   background: maroon;
   color: white;
+}
+
+footer {
+  background: black;
+  color: white;
+  padding: 20px 0 50px 20px;
 }
