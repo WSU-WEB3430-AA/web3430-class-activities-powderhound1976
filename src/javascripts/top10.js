@@ -11,6 +11,7 @@ export const top10 = [
 		votes: 1078045,
 		imdbID: 'tt0111161',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102092,
@@ -23,7 +24,8 @@ export const top10 = [
 		rating: 9.2,
 		votes: 762332,
 		imdbID: 'tt0068646',
-		reviews: [],
+		reviews: ["wonderful", "best"],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102093,
@@ -37,6 +39,7 @@ export const top10 = [
 		votes: 496772,
 		imdbID: 'tt0071562',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102094,
@@ -50,6 +53,7 @@ export const top10 = [
 		votes: 843376,
 		imdbID: 'tt0110912',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102095,
@@ -63,6 +67,7 @@ export const top10 = [
 		votes: 325579,
 		imdbID: 'tt0060196',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102096,
@@ -76,6 +81,7 @@ export const top10 = [
 		votes: 1050810,
 		imdbID: 'tt0468569',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102097,
@@ -89,6 +95,7 @@ export const top10 = [
 		votes: 266350,
 		imdbID: 'tt0050083',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102098,
@@ -102,6 +109,7 @@ export const top10 = [
 		votes: 553804,
 		imdbID: 'tt0108052',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102099,
@@ -115,6 +123,7 @@ export const top10 = [
 		votes: 767958,
 		imdbID: 'tt0167260',
 		reviews: [],
+		releaseDate: new Date('1990-03-22'),
 	},
 	{
 		id: 102100,
@@ -128,5 +137,6 @@ export const top10 = [
 		votes: 819812,
 		imdbID: 'tt0137523',
 		reviews: [],
+		releaseDate: new Date("1990-03-22")
 	},
 ];
