@@ -1,6 +1,6 @@
 import React from 'react';
 import MovieList from './Movie-list';
-import { BrowserRouter as  } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 export default function Main() {
 	return (
@@ -12,6 +12,7 @@ export default function Main() {
 				<MovieList />
 			</div>
 
-}			<footer>&copy; All rights reserved</footer>
+			<footer>&copy; All rights reserved</footer>
 		</Router>
 	);
+	}
