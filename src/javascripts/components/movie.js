@@ -13,7 +13,7 @@ export default function Movie(props) {
 		<div className='card'>
 			<img src={m.poster} alt={m.title} />
 			<h2>{m.title}</h2>
-			<p>{m.plot}<strong> Release Date: </strong>{format(m.releaseDate, 'MM/dd/yyyy')}</p>
+			<p>{m.plot}</p>
 			<ul className='extra'>
 				<li>
           {/* This is where it is breaking down */}

@@ -2,30 +2,81 @@ import React, { useContext, useState } from 'react';
 import { MovieContext } from './Movie-list';
 import { useHistory, useParams } from 'react-router';
 import { setYear } from 'date-fns';
+import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+toast.configure();
 
+export function VHelp({ message }) {
+	return <p className='help'>{message}</p>;
+}
 export default function MovieForm() {
 	let { movies, setMovies } = useContext(MovieContext);
 	let { mid } = useParams();
 
 	let movie = mid ? movies.find(m => m.id == mid) : {};
-	let [title, setTitle] = useState(movie.title);
-	let [poster, setPoster] = useState(movie.poster);
-	let [plot, setPlot] = useState(movie.plot);
-	let [year, setYear] = useState(movie.year);
-	let [rated, setRated] = useState(movie.rated);
-	let [genre, setGenre] = useState(movie.genre);
-	let [rating, setRating] = useState(movie.rating);
-	let [votes, setVotes] = useState(movie.votes);
-	let [imdbID, setImdbID] = useState(movie.imdbID);
-	let [reviews, setReviews] = useState(movie.reviews);
+	let is_new = mid === undefined;
+	let { handleSubmit, handleChange, values, errors } = useFormik({
+		initialValues: is_new
+			? {
+					title: '',
+					year: new Date().getFullYear(),
+					rated: '',
+					genre: '',
+					plot: '',
+					poster: '',
+					rating: '',
+					votes: '',
+					imdbID: '',
+					reviews: '',
+			  }
+			: { ...movie },
+		validate(values) {
+			let errors = {};
+			if (
+				!values.year ||
+				values.year < 1900 ||
+				values.year > new Date().getFullYear()
+			)
+				errors.year = 'Year is required between 1900 and current year';
+			if (!values.title) errors.title = 'Title is required';
+			if (!values.year) errors.year = 'Year is required';
+			if (!values.rated) errors.rated = 'rated is required';
+			if (!values.genre) errors.genre = 'genre is required';
+			if (!values.poster) errors.poster = 'poster is required';
+			if (!values.plot) errors.plot = 'plot is required';
+			if (!values.rating) errors.rating = 'rating is required';
+			if (!values.votes) errors.votes = 'votes is required';
+			if (!values.imdbID) errors.imdbID = 'imdbID is required';
+			if (!values.reviews) errors.reviews = 'reviews is required';
 
+			return errors;
+		},
+		onSubmit(values) {
+			if (is_new) {
+				let id = movies.length;
+				while (true) {
+					let mv = movies.find(m => m.id == id++);
+					if (mv === undefined) break;
+				}
+
+				values.id = id;
+				movies.push(values);
+			} else {
+				let mv = movies.find(m => m.id == movie.id);
+				Object.assign(mv, values);
+			}
+
+			setMovies([...movies]);
+			history.push('/movies');
+      toast(is_new ? "Successfully added" : "Successfully updated")
+		},
+	});
 
 	const history = useHistory();
-	const submit = e => {
-		e.preventDefault();
-	};
+
 	return (
-		<form onSubmit='{submit}'>
+		<form onSubmit={handleSubmit}>
 			<h1>Adding/Editing a movie</h1>
 
 			<div className='field'>
@@ -34,10 +85,10 @@ export default function MovieForm() {
 					<input
 						type='text'
 						name='title'
-						value={title}
-						onChange={e => setTitle(e.target.value)}
+						value={values.title}
+						onChange={handleChange}
 					/>
-					<p className='help'>Title is required</p>
+					<VHelp message={errors.title} />
 				</div>
 			</div>
 
@@ -45,12 +96,12 @@ export default function MovieForm() {
 				<label htmlFor='title'>Year</label>
 				<div className='control'>
 					<input
-						type='number'
-						name='title'
-						value={year}
-						onChange={e => setYear(e.target.value)}
+						type='text'
+						name='year'
+						value={values.year}
+						onChange={handleChange}
 					/>
-					<p className='help'>Year is required</p>
+					<VHelp message={errors.year} />
 				</div>
 			</div>
 
@@ -60,10 +111,10 @@ export default function MovieForm() {
 					<input
 						type='text'
 						name='rated'
-						value={rated}
-						onChange={e => setRated(e.target.value)}
+						value={values.rated}
+						onChange={handleChange}
 					/>
-					<p className='help'>Rating is required</p>
+					<VHelp message={errors.rated} />
 				</div>
 			</div>
 
@@ -73,10 +124,10 @@ export default function MovieForm() {
 					<input
 						type='text'
 						name='genre'
-						value={genre}
-						onChange={e => setGenre(e.target.value)}
+						value={values.genre}
+						onChange={handleChange}
 					/>
-					<p className='help'>Genre is required</p>
+					<VHelp message={errors.genre} />
 				</div>
 			</div>
 
@@ -84,12 +135,12 @@ export default function MovieForm() {
 				<label htmlFor='title'>Poster</label>
 				<div className='control'>
 					<input
-						type='url'
+						type='text'
 						name='poster'
-						value={poster}
-						onChange={e => setPoster(e.target.value)}
+						value={values.poster}
+						onChange={handleChange}
 					/>
-					<p className='help'>Poster is required</p>
+					<VHelp message={errors.poster} />
 				</div>
 			</div>
 
@@ -98,9 +149,9 @@ export default function MovieForm() {
 				<div className='control'>
 					<textarea
 						name='plot'
-						value={plot}
-						onChange={e => setPlot(e.target.value)}></textarea>
-					<p className='help'>Plot is required</p>
+						value={values.plot}
+						onChange={handleChange}></textarea>
+					<VHelp message={errors.plot} />
 				</div>
 			</div>
 
@@ -108,12 +159,12 @@ export default function MovieForm() {
 				<label htmlFor='rating'>Rating</label>
 				<div className='control'>
 					<input
-						type='number'
+						type='text'
 						name='rating'
-						value={rating}
-						onChange={e => setRating(e.target.value)}
+						value={values.rating}
+						onChange={handleChange}
 					/>
-					<p className='help'>Rating is required</p>
+					<VHelp message={errors.rating} />
 				</div>
 			</div>
 
@@ -121,12 +172,12 @@ export default function MovieForm() {
 				<label htmlFor='votes'>Votes</label>
 				<div className='control'>
 					<input
-						type='number'
+						type='text'
 						name='votes'
-						value={votes}
-						onChange={e => setVotes(e.target.value)}
+						value={values.votes}
+						onChange={handleChange}
 					/>
-					<p className='help'>Title is required</p>
+					<VHelp message={errors.votes} />
 				</div>
 			</div>
 
@@ -136,10 +187,10 @@ export default function MovieForm() {
 					<input
 						type='text'
 						name='imdbID'
-						value={imdbID}
-						onChange={e => setImdbID(e.target.value)}
+						value={values.imdbID}
+						onChange={handleChange}
 					/>
-					<p className='help'>IMDB ID is required</p>
+					<VHelp message={errors.imdbID} />
 				</div>
 			</div>
 
@@ -149,17 +200,19 @@ export default function MovieForm() {
 					<input
 						type='array'
 						name='reviews'
-						value={reviews}
-						onChange={e => setReviews(e.target.value)}
+						value={values.reviews}
+						onChange={handleChange}
 					/>
-					
+					<VHelp message={errors.reviews} />
 				</div>
 			</div>
 
 			<div className='field'>
 				<label></label>
 				<div className='control'>
-					<button className='primary'>Submit</button>
+					<button type='submit' className='primary'>
+						Submit
+					</button>
 					<button
 						className='primary'
 						onClick={() => history.push('/movies')}>
