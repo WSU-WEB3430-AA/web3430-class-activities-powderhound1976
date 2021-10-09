@@ -5,6 +5,8 @@ import { setYear } from 'date-fns';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import * as yup from 'yup';
 toast.configure();
 
@@ -25,7 +27,6 @@ const validationSchema = yup.object({
 	rating: yup.number().required(),
 	votes: yup.number().required(),
 	imdbID: yup.string().required(),
-	reviews: yup.string(),
 	releaseDate: yup.date(),
 });
 export default function MovieForm() {
@@ -34,42 +35,44 @@ export default function MovieForm() {
 
 	let movie = mid ? movies.find(m => m.id == mid) : {};
 	let is_new = mid === undefined;
-	let { handleSubmit, handleChange, values, errors } = useFormik({
-		initialValues: is_new
-			? {
-					title: '',
-					year: new Date().getFullYear(),
-					rated: '',
-					genre: '',
-					plot: '',
-					poster: '',
-					rating: '',
-					votes: '',
-					imdbID: '',
-					reviews: '',
-			  }
-			: { ...movie },
-		validationSchema,
-		onSubmit(values) {
-			if (is_new) {
-				let id = movies.length;
-				while (true) {
-					let mv = movies.find(m => m.id == id++);
-					if (mv === undefined) break;
+	let { handleSubmit, handleChange, values, errors, setFieldValue } =
+		useFormik({
+			initialValues: is_new
+				? {
+						title: '',
+						year: new Date().getFullYear(),
+						rated: '',
+						genre: '',
+						plot: '',
+						poster: '',
+						rating: '',
+						votes: '',
+						imdbID: '',
+						reviews: '',
+						releaseDate: '',
+				  }
+				: { ...movie },
+			validationSchema,
+			onSubmit(values) {
+				if (is_new) {
+					let id = movies.length;
+					while (true) {
+						let mv = movies.find(m => m.id == id++);
+						if (mv === undefined) break;
+					}
+
+					values.id = id;
+					movies.push(values);
+				} else {
+					let mv = movies.find(m => m.id == movie.id);
+					Object.assign(mv, values);
 				}
 
-				values.id = id;
-				movies.push(values);
-			} else {
-				let mv = movies.find(m => m.id == movie.id);
-				Object.assign(mv, values);
-			}
-
-			setMovies([...movies]);
-			history.push('/movies');
-			toast(is_new ? 'Successfully added' : 'Successfully updated');
-		},
-	});
+				setMovies([...movies]);
+				history.push('/movies');
+				toast(is_new ? 'Successfully added' : 'Successfully updated');
+			},
+		});
 
 	const history = useHistory();
 
@@ -202,6 +205,18 @@ export default function MovieForm() {
 						onChange={handleChange}
 					/>
 					<VHelp message={errors.reviews} />
+				</div>
+			</div>
+
+			<div className='field'>
+				<label htmlFor='releaseDate'>Release Date</label>
+				<div className='control'>
+					<DatePicker
+						name='releaseDate'
+						selected={values.releaseDate}
+						onChange={date => setFieldValue('releaseDate', date)}
+					/>
+					<VHelp message={errors.releaseDate} />
 				</div>
 			</div>
 
