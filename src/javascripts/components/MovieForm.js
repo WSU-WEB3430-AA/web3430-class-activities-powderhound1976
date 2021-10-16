@@ -19,7 +19,7 @@ const validationSchema = yup.object({
 	year: yup.number().required().min(1900).max(new Date().getFullYear()),
 	rated: yup
 		.string()
-		.matches(/(g|G|pg|PG|pg-13|PG-13|r|R|nc-17|NC-17|xxx|XXX)/)
+		.matches(/(g|G|pg|PG|pg-13|PG-13|r|R|nc-17|NC-17|xxx|XXX)/,"Valid options are: G, PG, PG-13, R, NC-17, XXX")
 		.required(), //Trying to implement matching
 	genre: yup.string().required(),
 	plot: yup.string().required(),
