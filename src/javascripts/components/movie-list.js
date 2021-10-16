@@ -12,19 +12,25 @@ export default function MovieList() {
 	useEffect(() => {
 		fetch('/top10.dat')
 			.then(response => response.text())
-			.then((data)=> {
-				setMovies(JSON.parse(data, (key, value) => {
-					const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:.*Z$/ 
-					if(typeof value === 'string' && dateFormat.test(value)) {
-						return new Date(value)
-					}else{return value}
-					
-				}))
+			.then(data => {
+				setMovies(
+					JSON.parse(data, (key, value) => {
+						const dateFormat =
+							/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:.*Z$/;
+						if (
+							typeof value === 'string' &&
+							dateFormat.test(value)
+						) {
+							return new Date(value);
+						} else {
+							return value;
+						}
+					})
+				);
 			})
-			.catch(console.error)
-	},[]);
-	if (!movies) 
-	return <p>Loading...</p>;
+			.catch(console.error);
+	}, []);
+	if (!movies) return <p>Loading...</p>;
 
 	return (
 		<MovieContext.Provider value={{ movies, setMovies }}>
