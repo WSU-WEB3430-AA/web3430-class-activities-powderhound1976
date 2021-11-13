@@ -4,7 +4,7 @@ import StarRating from './StarRating';
 import { useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import Modal from 'react-modal';
-import { MovieContext } from './Movie-list';
+import { MovieContext } from './Movie-List';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

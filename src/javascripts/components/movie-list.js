@@ -10,7 +10,7 @@ export default function MovieList() {
 	const history = useHistory();
 
 	useEffect(() => {
-		fetch('/top10.dat')
+		fetch('/api/movies')
 			.then(response => response.text())
 			.then(data => {
 				setMovies(
@@ -34,18 +34,7 @@ export default function MovieList() {
 
 	return (
 		<MovieContext.Provider value={{ movies, setMovies }}>
-			<nav>
-				<ul>
-					<li>
-						<Link to='/'>Home</Link>
-					</li>
-					<li>
-						<Link to='/movies'>List</Link>
-					</li>
-					<li>
-						<Link to='/about'>About</Link>
-					</li>
-				</ul>
+			<div className="pull-content-right">
 				<Route path='/movies'>
 					<button
 						className='primary'
@@ -61,7 +50,7 @@ export default function MovieList() {
 						Add a new movie
 					</button>
 				</Route>
-			</nav>
+				</div>
 			<main>
 				<Switch>
 					<Route exact path='/movies'>
@@ -85,9 +74,6 @@ export default function MovieList() {
 					</Route>
 					<Route path='/movies/:mid/edit'>
 						<MovieForm />
-					</Route>
-					<Route path='/about'>
-						<About></About>
 					</Route>
 					<Redirect from='' to='/movies' />
 					<Route path='*'>

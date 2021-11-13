@@ -21,6 +21,11 @@ body {
   display: flex;
   flex-flow: column nowrap;
 
+  .pull-content-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   nav {
     display: flex;
     background: maroon;

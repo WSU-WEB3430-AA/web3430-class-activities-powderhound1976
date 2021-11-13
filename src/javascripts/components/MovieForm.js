@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { MovieContext } from './Movie-list';
+import { MovieContext } from './Movie-List';
 import { useHistory, useParams } from 'react-router';
 import { setYear } from 'date-fns';
 import { useFormik } from 'formik';
@@ -15,7 +15,7 @@ export function VHelp({ message }) {
 }
 
 const validationSchema = yup.object({
-	title: yup.string().required(),
+title: yup.string().required(),
 	year: yup.number().required().min(1900).max(new Date().getFullYear()),
 	rated: yup
 		.string()
